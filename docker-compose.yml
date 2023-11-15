@@ -27,3 +27,4 @@ services:
       - sel
     depends_on:
       - selenium
+    tty: true
