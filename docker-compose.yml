@@ -1,0 +1,29 @@
+version: '3.8'
+
+networks:
+  sel:
+    external: true
+    driver: bridge
+
+services:
+  selenium:
+    image: selenium/standalone-chrome:latest
+    hostname: chrome
+    networks:
+      - sel
+    privileged: true
+    shm_size: 2g
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: appurl
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "5000:5000"
+    networks:
+      - sel
+    depends_on:
+      - selenium
